@@ -91,7 +91,7 @@ function App() {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label>Turno:</label><br />
+          <label>Embarque:</label><br />
           <select
             value={shift}
             onChange={(e) => setShift(e.target.value)}
@@ -102,7 +102,7 @@ function App() {
               border: '1px solid #ccc'
             }}
           >
-            <option value="">Seleccionar turno</option>
+            <option value="">Seleccionar hora</option>
             <option value="10:00 AM">10:00 AM</option>
             <option value="4:00 PM">4:00 PM</option>
           </select>
