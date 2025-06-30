@@ -5,6 +5,8 @@ function App() {
   const [fullName, setFullName] = useState('');
   const [shift, setShift] = useState('');
   const [includeCar, setIncludeCar] = useState(false);
+  const [plate, setPlate] = useState('');
+  const [model, setModel] = useState('');
   const [qrCode1, setQrCode1] = useState('');
   const [qrCode2, setQrCode2] = useState('');
   const [generated, setGenerated] = useState(false);
@@ -14,7 +16,14 @@ function App() {
       const response = await fetch('/generate-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dni, name: fullName, shift, includeCar }),
+        body: JSON.stringify({
+          dni,
+          name: fullName,
+          shift,
+          includeCar,
+          plate: includeCar ? plate : null,
+          model: includeCar ? model : null
+        }),
       });
 
       if (!response.ok) throw new Error('Error en la generación del PDF');
@@ -91,7 +100,7 @@ function App() {
         </div>
 
         <div style={{ marginBottom: '20px' }}>
-          <label>Embarque:</label><br />
+          <label>Turno:</label><br />
           <select
             value={shift}
             onChange={(e) => setShift(e.target.value)}
@@ -102,7 +111,7 @@ function App() {
               border: '1px solid #ccc'
             }}
           >
-            <option value="">Seleccionar hora</option>
+            <option value="">Seleccionar turno</option>
             <option value="10:00 AM">10:00 AM</option>
             <option value="4:00 PM">4:00 PM</option>
           </select>
@@ -119,6 +128,39 @@ function App() {
             ¿Incluir auto?
           </label>
         </div>
+
+        {includeCar && (
+          <>
+            <div style={{ marginBottom: '20px' }}>
+              <label>Placa del vehículo:</label><br />
+              <input
+                type="text"
+                value={plate}
+                onChange={(e) => setPlate(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  borderRadius: '6px',
+                  border: '1px solid #ccc'
+                }}
+              />
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              <label>Modelo del vehículo:</label><br />
+              <input
+                type="text"
+                value={model}
+                onChange={(e) => setModel(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  borderRadius: '6px',
+                  border: '1px solid #ccc'
+                }}
+              />
+            </div>
+          </>
+        )}
 
         <div style={{ textAlign: 'center' }}>
           <button
